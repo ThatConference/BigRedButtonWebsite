@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - '8'
+script:
+  - npm test
+  - npm run build 
+
+env:
+  global:
+    - REACT_APP_GRAPHQL_HOST=https://api.thatconference.com
+    - REACT_APP_GRAPHQL_WSS_HOST=wss://api.thatconference.com
+
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  project: "BigRedButton"
+  message: "Build # $TRAVIS_BUILD_NUMBER"

@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": "build",
+    "headers": [{ "source": "/service-worker.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "**/docs/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

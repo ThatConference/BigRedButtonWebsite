@@ -1,0 +1,30 @@
+{
+    "extends": ["airbnb"],
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest/globals": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "classes": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "rules": {
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "jest/valid-expect": "error",
+        
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-unused-vars": [1, { "argsIgnorePattern": "props|res|next|^err" }],
+        
+        "arrow-body-style": [2, "as-needed"]
+    },
+    "plugins": ["prettier", "react", "jest"]
+}
