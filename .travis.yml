@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-  - '8'
+- '8'
 script:
-  - npm test
-  - npm run build 
-
+- npm test
+- npm run build
 env:
   global:
-    - REACT_APP_GRAPHQL_HOST=https://api.thatconference.com
-    - REACT_APP_GRAPHQL_WSS_HOST=wss://api.thatconference.com
-
+  - REACT_APP_GRAPHQL_HOST=https://api.thatconference.com
+  - REACT_APP_GRAPHQL_WSS_HOST=wss://api.thatconference.com
 deploy:
-  skip_cleanup: true
+  project: BigRedButton
   provider: firebase
-  project: "BigRedButton"
-  message: "Build # $TRAVIS_BUILD_NUMBER"
+  token: 
+    secure: YVrH3gvJ3eXrAOtVlSuBGemSQSy7iSCcxm8sETPonGEr7NckFwjvO2kR07YR2pKph5+8ozl5nRqagzz1VwY5C4Vq22ZyOiX6EnkCeN5ZANAFIMH402ii2KoD5tAWM20zCz9+/6AA7I0fMtruYELriDVFHULGlcATJYXJdt7rrPjNCuEmIYAmt1a7Gpxif2oS1csgDtEU8NQOqQSYP4Ocsc3qBeFieNjZrvo7HL7QBtxgOQxYHEcW6wtHnnFDSKfoI9RZ0xJ7u5ZbXrfcENE2y/0KxgStcgcK28IENCHqRV+e9CKUdf+Jqv2OaQtkqeyPxIiFbSFchD+pAl2zSlC7cxja174V9jqmcmTAd6bB+pocl22/tVBk0qpnK2gXq5vZca0ncFuUFMp+Rm1+gUm83SJtQJY/IhKak0DHFs32FhxksHUisV+sPUXMrqzNR/P53JLJ2oDPbhlUo/bQsA9xta2N9IlF6P1UyPyC41p9I5kswdz0PJ5Q06zn/lPBgFDDXpkXHH57f6AOfxoF0shD7d5BGiq9CmO2Iyo8kzG0fUxrsePFw6As3EXUTp6mGFDuOZZzq5L9SdmENGTQNdxZT4gqPJ23veJNum2C0kvz6ISA6cBpmlhs5z2io4EAiqwID4IhYW2otXJOHyH3h5URywi8aon9BISRzcPO8dz1eB8=
+  skip_cleanup: true
+  message: 'Build # $TRAVIS_BUILD_NUMBER'
