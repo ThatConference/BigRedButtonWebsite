@@ -51,7 +51,6 @@ const Root = () => (
   <ApolloProvider client={client}>
     <Fragment>
       <NetworkStatusNotifier render={({ loading, error }) => {
-        console.log('yolo');
         if (loading) {
           document.body.style.borderTop = '4px solid yellow';
           return null;

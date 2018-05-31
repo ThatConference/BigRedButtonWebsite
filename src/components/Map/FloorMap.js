@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import axios from 'axios';
 import gql from 'graphql-tag';
 import { PropTypes } from 'prop-types';
 import React, { PureComponent, Fragment } from 'react';
@@ -67,13 +68,13 @@ class FloorMap extends PureComponent {
   getFloorFill(roomName) {
     const defaultColor = '#FFFFFF';
     const errorColor = '#B42E2E';
+    const yellowColor = '#FFD433';
 
     const device = getDeviceDetails(this.state.devices)(roomName);
 
     if (device && this.state.roomStatus && this.state.roomStatus[device.coreId]) {
-      return this.state.roomStatus[device.coreId] === 'RED'
-        ? errorColor
-        : defaultColor;
+      if (this.state.roomStatus[device.coreId] === 'RED') return errorColor;
+      if (this.state.roomStatus[device.coreId] === 'YELLOW') return yellowColor;
     }
 
     return defaultColor;
@@ -81,9 +82,12 @@ class FloorMap extends PureComponent {
 
   handleClick(room, event) {
     // event.preventDefault(); ?? do we need to stop the default?
-    console.log('handling...', room);
 
-    // todo: call that api to ack the room
+    const index = _.findIndex(this.state.devices, d => d.roomName.toUpperCase() === room.toUpperCase());
+    const { coreId } = this.state.devices[index];
+
+    axios
+      .post(`${process.env.REACT_APP_GRAPHQL_HOST}/api/brb/ack`, { coreId });
   }
 
   updateOnTempChanged(data) {
