@@ -7,7 +7,7 @@ import './Map.css';
 
 const getDevices = gql`
   query getDevices {
-    devices {
+    buttons {
       coreId
       roomName
       tcId
