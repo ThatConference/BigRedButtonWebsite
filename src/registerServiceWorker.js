@@ -32,7 +32,7 @@ function registerValidSW(swUrl) {
               // console.log('New content is available; please refresh.');
 
               console.log('New content is available; auto reloading.');
-              window.reload(true);
+              window.location.reload(true);
               console.log('Content has been reloaded automatically.');
 
             } else {
