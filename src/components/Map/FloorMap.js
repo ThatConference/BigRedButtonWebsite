@@ -96,8 +96,8 @@ class FloorMap extends PureComponent {
     return defaultColor;
   }
 
-  handleClick(room, event) {
-    // event.preventDefault(); ?? do we need to stop the default?
+  handleClick(room, e) {
+    e.preventDefault();
 
     const index = _.findIndex(this.state.devices, d => d.roomName.toUpperCase() === room.toUpperCase());
     const { coreId } = this.state.devices[index];
@@ -557,7 +557,7 @@ class FloorMap extends PureComponent {
             </g>
           </g>
         </svg>
-      </Fragment>
+      </Fragment >
     );
   }
 
