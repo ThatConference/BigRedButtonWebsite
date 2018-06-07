@@ -33,7 +33,7 @@ function registerValidSW(swUrl) {
 
               console.log('New content is available; auto reloading.');
               window.reload(true);
-              console.log('reloaded');
+              console.log('Content has been reloaded automatically.');
 
             } else {
               // At this point, everything has been precached.
