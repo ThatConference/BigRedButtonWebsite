@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Map from './components/Map/Map';
-import List from './components/List';
+import List from './components/List/List';
 
 const Router = props => (
   <BrowserRouter>
