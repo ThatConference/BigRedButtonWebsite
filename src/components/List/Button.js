@@ -27,7 +27,6 @@ const onSpeakerStatusChange = gql`
 `;
 
 class Button extends PureComponent {
-
   handleClick(coreId, e) {
     e.preventDefault();
     console.log(`handle click called ${coreId}`);

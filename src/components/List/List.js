@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Query } from 'react-apollo';
 
@@ -24,19 +24,7 @@ const List = (props) => {
         if (loading) return null;
         if (error) return <div>MAYDAY: {error}</div>;
 
-        // return (
-        //   <Fragment>
-        //     <Button key='22001f000b47353137323334' coreId='22001f000b47353137323334' roomName='foo' />
-        //     <Button key='29002c001847353236343033' coreId='29002c001847353236343033' roomName='foo' />
-        //     <Button key='2b001c000347353137323334' coreId='2b001c000347353137323334' roomName='foo' />
-        //   </Fragment>
-        // );
-
-        return (
-          <Fragment>
-            {data.buttons.map(b => <Button key={b.coreId} coreId={b.coreId} roomName={b.roomName} />)}
-          </Fragment>
-        );
+        return data.buttons.map(b => <Button key={b.id} coreId={b.coreId} roomName={b.roomName} />);
       }}
     </Query>
   );
