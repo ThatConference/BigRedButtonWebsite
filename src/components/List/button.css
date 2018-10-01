@@ -1,7 +1,22 @@
 
 .button {
+  margin: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-gap: 5px;
+  justify-items: stretch;  
 }
+
+.error {
+  background-Color: #B42E2E;
+}
+
+.ack {
+  background-Color: #FFD433;
+}
+
+.defaultStatus {
+  background-Color: #ffffff;
+}
+
