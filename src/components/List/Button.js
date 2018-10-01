@@ -48,8 +48,8 @@ class Button extends PureComponent {
         break;
 
       default:
-        //results = 'defaultStatus';
-        results = 'error';
+        results = 'defaultStatus';
+        //results = 'error';
         break;
     };
 
