@@ -48,7 +48,8 @@ class Button extends PureComponent {
         break;
 
       default:
-        results = 'defaultStatus';
+        //results = 'defaultStatus';
+        results = 'error';
         break;
     };
 
@@ -66,7 +67,7 @@ class Button extends PureComponent {
   // we need to pass in room name and core id
   render() {
     return (
-      <div className={`button ${this.getFill()}`} onClick={e => this.handleClick(this.props.coreId, e)} >
+      <div className={`buttonData ${this.getFill()}`} onClick={e => this.handleClick(this.props.coreId, e)} >
 
         <Subscription subscription={onSpeakerStatusChange} variables={{ coreId: this.props.coreId }}>
           {({ loading, data, error }) => {

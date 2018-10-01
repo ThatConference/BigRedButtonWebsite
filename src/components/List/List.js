@@ -3,6 +3,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Query } from 'react-apollo';
 
+import './list.css';
 import Button from './Button';
 
 const getButtons = gql`
@@ -24,7 +25,11 @@ const List = (props) => {
         if (loading) return null;
         if (error) return <div>MAYDAY: {error}</div>;
 
-        return data.buttons.map(b => <Button key={b.id} coreId={b.coreId} roomName={b.roomName} />);
+        return (
+          <div className='listContainer'>
+            {data.buttons.map(b => <div className="button"><Button key={b.id} coreId={b.coreId} roomName={b.roomName} /></div>)}
+          </div>
+        );
       }}
     </Query>
   );

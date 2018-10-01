@@ -1,22 +1,23 @@
 
-.button {
-  margin: 20px;
+.buttonData {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-gap: 5px;
-  justify-items: stretch;  
 }
 
 .error {
+  color: white;
   background-Color: #B42E2E;
 }
 
 .ack {
+  color: black;
   background-Color: #FFD433;
 }
 
 .defaultStatus {
+  color: black;
   background-Color: #ffffff;
 }
 
