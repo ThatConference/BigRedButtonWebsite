@@ -23,11 +23,14 @@ const List = (props) => {
     <Query query={getButtons} variables={{ customerId }}>
       {({ loading, error, data }) => {
         if (loading) return null;
-        if (error) return <div>MAYDAY: {error}</div>;
+        if (error) {
+          console.log(error);
+          return null;
+        };
 
         return (
           <div className='listContainer'>
-            {data.buttons.map(b => <div className="button"><Button key={b.id} coreId={b.coreId} roomName={b.roomName} /></div>)}
+            {data.buttons.map(b => <div key={b.id} className="button"><Button key={b.id} coreId={b.coreId} roomName={b.roomName} /></div>)}
           </div>
         );
       }}

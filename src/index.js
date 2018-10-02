@@ -15,13 +15,14 @@ import registerServiceWorker from './registerServiceWorker';
 import './normalize.css';
 import './index.css';
 
+registerServiceWorker();
+
 const { NetworkStatusNotifier, link: networkStatusNotifierLink } = createNetworkStatusNotifier();
 
 // Create an http link:
 const httpLink = new HttpLink({
   uri: `${process.env.REACT_APP_GRAPHQL_HOST}/graphql`,
 });
-
 
 const wsLink = new WebSocketLink({
   uri: `${process.env.REACT_APP_GRAPHQL_WSS_HOST}/subscriptions`,
@@ -44,8 +45,6 @@ const client = new ApolloClient({
   link: networkStatusNotifierLink.concat(link),
   cache: new InMemoryCache(),
 });
-
-registerServiceWorker();
 
 const Root = () => (
   <ApolloProvider client={client}>
