@@ -7,7 +7,7 @@ import { ApolloProvider } from 'react-apollo';
 import React, { Fragment } from 'react';
 import { render } from 'react-dom';
 import { WebSocketLink } from 'apollo-link-ws';
-import { createNetworkStatusNotifier } from 'react-apollo-network-status';
+import { ApolloNetworkStatusProvider, useApolloNetworkStatus } from 'react-apollo-network-status';
 
 import Router from './Router';
 import registerServiceWorker from './registerServiceWorker';
@@ -17,7 +17,23 @@ import './index.css';
 
 registerServiceWorker();
 
-const { NetworkStatusNotifier, link: networkStatusNotifierLink } = createNetworkStatusNotifier();
+function GlobalLoadingIndicator() {
+  const status = useApolloNetworkStatus();
+
+  if (status.numPendingQueries > 0 || status.numPendingMutations > 0) {
+    document.body.style.borderTop = '4px solid yellow';
+    return <p>Loading …</p>;
+  }
+
+  if (status.queryError || status.mutationError) {
+    document.body.style.borderTop = '4px solid red';
+    return null;
+  }
+
+
+  document.body.style.borderTop = '0px';
+  return null;
+}
 
 // Create an http link:
 const httpLink = new HttpLink({
@@ -42,28 +58,17 @@ const link = ApolloLink.split(
 );
 
 const client = new ApolloClient({
-  link: networkStatusNotifierLink.concat(link),
+  link,
   cache: new InMemoryCache(),
 });
 
 const Root = () => (
   <ApolloProvider client={client}>
     <Fragment>
-      <NetworkStatusNotifier render={({ loading, error }) => {
-        if (loading) {
-          document.body.style.borderTop = '4px solid yellow';
-          return null;
-        }
-
-        if (error) {
-          document.body.style.borderTop = '4px solid red';
-          return null;
-        }
-
-        document.body.style.borderTop = '0px';
-        return null;
-      }} />
-      <Router />
+      <ApolloNetworkStatusProvider>
+        <GlobalLoadingIndicator />
+        <Router />
+      </ApolloNetworkStatusProvider>
     </Fragment>
   </ApolloProvider>
 );
