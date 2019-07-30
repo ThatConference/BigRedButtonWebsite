@@ -12,6 +12,7 @@ const getButtons = gql`
       id
       coreId
       roomName
+      tcId
     }
   }
 `;
@@ -30,7 +31,7 @@ const List = (props) => {
 
         return (
           <div className='listContainer'>
-            {data.buttons.map(b => <div key={b.id} className="button"><Button key={b.id} coreId={b.coreId} roomName={b.roomName} /></div>)}
+            {data.buttons.map(b => <div key={b.id} className="button"><Button key={b.id} coreId={b.coreId} roomName={b.roomName} tcId={b.tcId} /></div>)}
           </div>
         );
       }}

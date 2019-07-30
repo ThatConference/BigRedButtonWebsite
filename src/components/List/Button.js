@@ -120,6 +120,7 @@ class Button extends PureComponent {
         </Subscription>
 
         <div>{this.props.roomName}</div>
+        <div>{this.props.tcId}</div>
 
         <Subscription subscription={onTempChanged} variables={{ coreId: this.props.coreId }}>
           {({ loading, data, error }) => {
