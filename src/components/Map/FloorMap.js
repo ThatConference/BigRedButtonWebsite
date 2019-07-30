@@ -53,7 +53,10 @@ class FloorMap extends PureComponent {
   }
 
   getTemp(roomName) {
+    console.log("roomName", roomName);
     const device = getDeviceDetails(this.state.devices)(roomName);
+
+    console.log("device", device);
 
     if (device && this.state.temps) {
       return this.state.temps[device.coreId]
@@ -414,17 +417,17 @@ class FloorMap extends PureComponent {
               <g id="Cypress" transform="translate(675.000000, 1253.000000)" onClick={e => this.handleClick('Cypress', e)}>
                 <path d="M15,0 L204,0 L204,104 L15,104 L15,82 L0,82 L0,0 L15,0 Z" id="Cypress-Floor" fill={this.getFloorFill('Cypress')} />
               </g>
-              <g id="African50" transform="translate(2397.000000, 708.000000)" onClick={e => this.handleClick('African50', e)}>
-                <path d="M152,46 L157,46 L157,78 L152,78 L152,116 L9.09494702e-13,116 L9.09494702e-13,0 L152,0 L152,46 Z" id="African50-Floor" fill={this.getFloorFill('African50')} />
+              <g id="African50" transform="translate(2397.000000, 708.000000)" onClick={e => this.handleClick('African 50', e)}>
+                <path d="M152,46 L157,46 L157,78 L152,78 L152,116 L9.09494702e-13,116 L9.09494702e-13,0 L152,0 L152,46 Z" id="African50-Floor" fill={this.getFloorFill('African 50')} />
               </g>
-              <g id="African60" transform="translate(2397.000000, 828.000000)" onClick={e => this.handleClick('African60', e)}>
-                <path d="M152.124224,51 L157.124224,51 L157.124224,80 L152.124224,80 L152.124224,121 L0,121 L0,0 L152.124224,0 L152.124224,51 Z" id="African60-Floor" fill={this.getFloorFill('African60')} />
+              <g id="African60" transform="translate(2397.000000, 828.000000)" onClick={e => this.handleClick('African 60', e)}>
+                <path d="M152.124224,51 L157.124224,51 L157.124224,80 L152.124224,80 L152.124224,121 L0,121 L0,0 L152.124224,0 L152.124224,51 Z" id="African60-Floor" fill={this.getFloorFill('African 60')} />
               </g>
-              <g id="African70" transform="translate(2397.000000, 953.000000)" onClick={e => this.handleClick('African70', e)}>
-                <path d="M152.1,49 L157.1,49 L157.1,79 L152.1,79 L152.1,119 L0,119 L0,0 L152.1,0 L152.1,49 Z" id="African70-Floor" fill={this.getFloorFill('African70')} />
+              <g id="African70" transform="translate(2397.000000, 953.000000)" onClick={e => this.handleClick('African 70', e)}>
+                <path d="M152.1,49 L157.1,49 L157.1,79 L152.1,79 L152.1,119 L0,119 L0,0 L152.1,0 L152.1,49 Z" id="African70-Floor" fill={this.getFloorFill('African 70')} />
               </g>
-              <g id="African80" transform="translate(2397.000000, 1076.000000)" onClick={e => this.handleClick('African80', e)}>
-                <path d="M152.1,45.8907563 L156.1,45.8907563 L156.1,76.8907563 L152.1,76.8907563 L152.1,121 L0,121 L0,0 L152.1,0 L152.1,45.8907563 Z" id="African80-Floor" fill={this.getFloorFill('African80')} />
+              <g id="African80" transform="translate(2397.000000, 1076.000000)" onClick={e => this.handleClick('African 80', e)}>
+                <path d="M152.1,45.8907563 L156.1,45.8907563 L156.1,76.8907563 L152.1,76.8907563 L152.1,121 L0,121 L0,0 L152.1,0 L152.1,45.8907563 Z" id="African80-Floor" fill={this.getFloorFill('African 80')} />
               </g>
               <g id="Maji" transform="translate(1747.000000, 480.000000)" onClick={e => this.handleClick('Maji', e)}>
                 <rect id="Maji-Floor" x="0" y="0" width="119" height="91" fill={this.getFloorFill('Maji')} />
@@ -541,16 +544,16 @@ class FloorMap extends PureComponent {
                 <text id="Cypress-Name" fontSize="17" fill={this.getNameFill('Cypress')} >
                   <tspan x="648.452393" y="1236">Cypress</tspan>
                 </text>
-                <text id="African50-Name" fontSize="17" fill={this.getNameFill('African50')} >
+                <text id="African50-Name" fontSize="17" fill={this.getNameFill('African 50')} >
                   <tspan x="2331.87681" y="696">African 50</tspan>
                 </text>
-                <text id="African60-Name" fontSize="17" fill={this.getNameFill('African60')} >
+                <text id="African60-Name" fontSize="17" fill={this.getNameFill('African 60')} >
                   <tspan x="2329.39868" y="818">African 60</tspan>
                 </text>
-                <text id="African70-Name" fontSize="17" fill={this.getNameFill('African70')} >
+                <text id="African70-Name" fontSize="17" fill={this.getNameFill('African 70')} >
                   <tspan x="2329.39868" y="942">African 70</tspan>
                 </text>
-                <text id="African80-Name" fontSize="17" fill={this.getNameFill('African80')} >
+                <text id="African80-Name" fontSize="17" fill={this.getNameFill('African 80')} >
                   <tspan x="2329.39868" y="1067">African 80</tspan>
                 </text>
                 <text id="H-Name" fontSize="24" fill={this.getNameFill('H')} >
@@ -657,17 +660,17 @@ class FloorMap extends PureComponent {
                 <text id="Cypress-Temp" fontSize="17" fill={this.getNameFill('Cypress')}>
                   <tspan x="660.714844" y="1226">{this.getTemp('Cypress')}</tspan>
                 </text>
-                <text id="African50-Temp" fontSize="17" fill={this.getNameFill('African50')}>
-                  <tspan x="2355.21172" y="692">{this.getTemp('African50')}</tspan>
+                <text id="African50-Temp" fontSize="17" fill={this.getNameFill('African 50')}>
+                  <tspan x="2355.21172" y="692">{this.getTemp('African 50')}</tspan>
                 </text>
-                <text id="African60-Temp" fontSize="17" fill={this.getNameFill('African60')}>
-                  <tspan x="2352.71484" y="814">{this.getTemp('African60')}</tspan>
+                <text id="African60-Temp" fontSize="17" fill={this.getNameFill('African 60')}>
+                  <tspan x="2352.71484" y="814">{this.getTemp('African 60')}</tspan>
                 </text>
-                <text id="African70-Temp" fontSize="17" fill={this.getNameFill('African70')}>
-                  <tspan x="2352.71484" y="938">{this.getTemp('African70')}</tspan>
+                <text id="African70-Temp" fontSize="17" fill={this.getNameFill('African 70')}>
+                  <tspan x="2352.71484" y="938">{this.getTemp('African 70')}</tspan>
                 </text>
-                <text id="African80-Temp" fontSize="17" fill={this.getNameFill('African80')}>
-                  <tspan x="2350.21484" y="1060">{this.getTemp('African80')}</tspan>
+                <text id="African80-Temp" fontSize="17" fill={this.getNameFill('African 80')}>
+                  <tspan x="2350.21484" y="1060">{this.getTemp('African 80')}</tspan>
                 </text>
                 <text id="Maji-Temp" fontSize="17" fill={this.getNameFill('Maji')}>
                   <tspan x="1684.71484" y="446">{this.getTemp('Maji')}</tspan>
