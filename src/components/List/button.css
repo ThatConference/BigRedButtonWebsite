@@ -1,9 +1,9 @@
 
 .buttonData {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: .5fr 1fr .5fr 1fr .5fr;
   grid-template-rows: auto;
-  grid-gap: 5px;
+  grid-gap: 10px;
 }
 
 .error {
