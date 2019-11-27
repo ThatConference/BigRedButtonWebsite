@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "name": "BigRedButtonWebsite",
+  "env": {
+    "REACT_APP_GRAPHQL_HOST": "https://api.thatconference.com",
+    "REACT_APP_GRAPHQL_WSS_HOST": "wss://api.thatconference.com"
+  },
+  "build": {
+    "env": {
+      "REACT_APP_GRAPHQL_HOST": "https://api.thatconference.com",
+      "REACT_APP_GRAPHQL_WSS_HOST": "wss://api.thatconference.com"  
+    }
+  }
+}
