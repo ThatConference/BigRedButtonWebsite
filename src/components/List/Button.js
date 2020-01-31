@@ -1,14 +1,14 @@
 import axios from 'axios';
 import gql from 'graphql-tag';
-// import { PropTypes } from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Subscription } from 'react-apollo';
+import { PropTypes } from 'prop-types';
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { useSubscription } from '@apollo/react-hooks';
+import Icon from '../common/Icon';
 
-import './button.css';
-
-const onTempChanged = gql`
-  subscription onTempChangedByCoreId ($coreId: String!){
-    roomTemp: onRoomTempByCoreId (coreId: $coreId) {
+const ON_TEMP_CHANGED = gql`
+  subscription onTempChangedByCoreId($coreId: String!) {
+    roomTemp: onRoomTempByCoreId(coreId: $coreId) {
       coreId: coreid
       data {
         temp: dhtTemperature
@@ -17,8 +17,8 @@ const onTempChanged = gql`
   }
 `;
 
-const onSpeakerStatusChange = gql`
-  subscription onSpeakerStatusChangeByCoreId ($coreId: String!) {
+const ON_SPEAKER_STATUS_CHANGE = gql`
+  subscription onSpeakerStatusChangeByCoreId($coreId: String!) {
     speakerStatus: onSpeakerStatusByCoreId(coreId: $coreId) {
       coreId: coreid
       status: data
@@ -26,8 +26,8 @@ const onSpeakerStatusChange = gql`
   }
 `;
 
-const onDeviceHealth = gql`
-  subscription onDevice ($coreId: String!) {
+const ON_DEVICE_HEALTH = gql`
+  subscription onDevice($coreId: String!) {
     onDeviceMonitor(coreId: $coreId) {
       coreId: coreid
       data {
@@ -47,122 +47,135 @@ const onDeviceHealth = gql`
   }
 `;
 
-class Button extends PureComponent {
-  constructor(props) {
-    super(props);
+const CheckIcon = styled(Icon)`
+  fill: ${({ theme }) => theme.colors.success};
+  position: relative;
+  top: 0.5rem;
+`;
 
-    this.state = {
-      speakerStatus: 'GREEN',
-    };
-  }
+const ErrorIcon = styled(Icon)`
+  fill: ${({ theme }) => theme.colors.danger};
+  position: relative;
+  top: 0.5rem;
+`;
 
-  getFill() {
-    let results = 'defaultStatus';
+const WarningIcon = styled(Icon)`
+  fill: ${({ theme }) => theme.colors.warning};
+  position: relative;
+  top: 0.5rem;
+`;
 
-    switch (this.state.speakerStatus.toUpperCase()) {
-      case 'RED':
-        results = 'error';
-        break;
+const Button = ({ coreId, id, roomName, tcId }) => {
+  const [speakerStatus, setSpeakerStatus] = useState('GREEN');
+  const [temp, setTemp] = useState('');
+  const [deviceStrength, setDeviceStrength] = useState('');
+  const [deviceStatus, setDeviceStatus] = useState('');
 
-      case 'YELLOW':
-        results = 'ack';
-        break;
+  const checkmark = <CheckIcon icon="check" viewBoxHeight="15" viewBoxWidth="15" />;
+  const errorIcon = <ErrorIcon icon="close" viewBoxHeight="17" viewBoxWidth="17" height="2.1rem" width="2.1rem" />;
+  const warningIcon = <WarningIcon icon="error" viewBoxHeight="17" viewBoxWidth="17" height="2.1rem" width="2.1rem" />;
 
-      default:
-        results = 'defaultStatus';
-        break;
-    };
-
-    return results;
-  }
-
-  handleClick(coreId, e) {
+  const handleClick = (e) => {
     e.preventDefault();
     console.log(`handle click called ${coreId} `);
 
-    axios
-      .post(`${process.env.REACT_APP_GRAPHQL_HOST}/api/brb/ack`, { coreId });
-  }
+    axios.post(`${process.env.REACT_APP_GRAPHQL_HOST}/api/brb/ack`, { coreId });
+  };
 
-  // we need to pass in room name and core id
-  render() {
-    return (
-      <div className={`buttonData ${this.getFill()} `} onClick={e => this.handleClick(this.props.coreId, e)} >
+  const { loading: tempLoading, error: tempError } = useSubscription(ON_TEMP_CHANGED, {
+    variables: { coreId },
+    onSubscriptionData: ({
+      subscriptionData: {
+        data: { roomTemp },
+      },
+    }) => {
+      setTemp(Number.parseFloat(roomTemp.data.temp).toFixed(2));
+    },
+  });
 
-        <Subscription subscription={onSpeakerStatusChange} variables={{ coreId: this.props.coreId }}>
-          {({ loading, data, error }) => {
-            // if (loading) return null;
-            if (loading) return <div>...</div>;
-            if (error) return <div>MAYDAY: {error}</div>;
+  const { loading: speakerStatusLoading, error: speakerStatusError } = useSubscription(
+    ON_SPEAKER_STATUS_CHANGE,
+    {
+      variables: { coreId },
+      onSubscriptionData: ({
+        subscriptionData: {
+          data: { speakerStatus },
+        },
+      }) => {
+        setSpeakerStatus(speakerStatus.status.toUpperCase());
+      },
+    },
+  );
 
-            this.setState({
-              ...this.state,
-              speakerStatus: data.speakerStatus.status.toUpperCase(),
-            });
+  const { loading: deviceStrengthLoading, error: deviceStrengthError } = useSubscription(
+    ON_DEVICE_HEALTH,
+    {
+      variables: { coreId },
+      onSubscriptionData: ({ subscriptionData: { data } }) => {
+        console.log('device health data', data);
+        setDeviceStrength(data.onDeviceMonitor.data.device.network.signal.strength);
+        setDeviceStatus(data.onDeviceMonitor.data.device.network.connection.status);
+      },
+    },
+  );
 
-            let result;
-            switch (data.speakerStatus.status.toUpperCase()) {
-              case 'RED':
-                result = <span role="img" aria-label="error image">🔴</span>;
-                break;
+  const getStatusIcon = () => {
+    if (speakerStatusLoading) return '...';
+    if (speakerStatusError) return `ERR: ${speakerStatusError}`;
 
-              case 'YELLOW':
-                result = <span role="img" aria-label="yellow image">⚠️</span>;
-                break;
+    switch (speakerStatus) {
+      case 'RED':
+        return errorIcon;
+      case 'YELLOW':
+        return warningIcon;
+      default:
+        return checkmark;
+    }
+  };
 
-              default:
-                result = <span role="img" aria-label="default image">✅</span>;
-                break;
-            }
+  const getTemp = () => {
+    if (tempLoading) return '...';
+    if (tempError) return `ERR: ${tempError}`;
 
-            return result;
-          }}
-        </Subscription>
+    return temp;
+  };
 
-        <div>{this.props.roomName}</div>
-        <div>{this.props.tcId}</div>
+  const getDeviceHealth = () => {
+    if (deviceStrengthLoading) return '...';
+    if (deviceStrengthError) return `ERR: ${deviceStrengthError}`;
 
-        <Subscription subscription={onTempChanged} variables={{ coreId: this.props.coreId }}>
-          {({ loading, data, error }) => {
-            if (loading) return <span>...</span>;
-            if (error) return <span>MAYDAY: {error}</span>;
+    if (deviceStatus !== -1) {
+      return (
+        <>
+          {checkmark}
+          <span>{deviceStrength}</span>
+        </>
+      );
+    }
 
-            return (
-              <div>{Number.parseFloat(data.roomTemp.data.temp).toFixed(2)}</div>
-            );
-          }}
-        </Subscription>
+    return errorIcon;
+  };
 
-        <Subscription subscription={onDeviceHealth} variables={{ coreId: this.props.coreId }}>
-          {({ loading, data, error }) => {
-            if (loading) return <span>...</span>;
-            if (error) return <span>MAYDAY: {error}</span>;
+  return (
+    <tr key={id} className="button" onClick={(e) => handleClick(e)}>
+      <td>{getStatusIcon()}</td>
+      <td>{roomName}</td>
+      <td>{tcId}</td>
+      <td>{getTemp()}</td>
+      <td>{getDeviceHealth()}</td>
+    </tr>
+  );
+};
 
-            let element =
-              <div>
-                <span role="img" aria-label="No Internet">❌</span>
-              </div>
+Button.propTypes = {
+  coreId: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  roomName: PropTypes.string.isRequired,
+  tcId: PropTypes.string.isRequired,
+};
 
-            if (data.onDeviceMonitor.data.device) {
-              // eslint-disable-next-line 
-              if (data.onDeviceMonitor.data.device.network.connection.status != -1) {
-                element =
-                  <div>
-                    <span role="img" aria-label="Network Signal Found">✅</span>
-                    <span>{data.onDeviceMonitor.data.device.network.signal.strength}</span>
-                  </div>
-              }
-            }
-
-            return element;
-          }}
-        </Subscription>
-
-
-      </div>
-    );
-  }
-}
-
+Button.defaultProps = {
+  id: '',
+};
 
 export default Button;

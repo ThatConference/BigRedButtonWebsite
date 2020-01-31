@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Map from './components/Map/Map';
 import List from './components/List/List';
 
-const Router = props => (
+const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={Map} />

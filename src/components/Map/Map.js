@@ -1,11 +1,10 @@
 import gql from 'graphql-tag';
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import FloorMap from './FloorMap';
-import './Map.css';
 
-const getDevices = gql`
+const GET_DEVICES = gql`
   query getDevices {
     buttons {
       coreId
@@ -15,13 +14,10 @@ const getDevices = gql`
   }
 `;
 
-const Map = () => (
-  <Query query={getDevices}>
-    {({ loading, error, data }) => {
-      if (loading) return null;
-      return <FloorMap {...data} />;
-    }}
-  </Query>
-);
+const Map = () => {
+  const { loading, data } = useQuery(GET_DEVICES);
+  if (loading) return null;
+  return <FloorMap {...data} />;
+};
 
 export default Map;
