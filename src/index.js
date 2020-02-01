@@ -4,16 +4,19 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { getMainDefinition } from 'apollo-utilities';
 import { ApolloProvider } from 'react-apollo';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { WebSocketLink } from 'apollo-link-ws';
 import { ApolloNetworkStatusProvider, useApolloNetworkStatus } from 'react-apollo-network-status';
+import { ThemeProvider } from 'styled-components';
 
 import Router from './Router';
+import Layout from './components/Layout';
 import registerServiceWorker from './registerServiceWorker';
 
-import './normalize.css';
-import './index.css';
+import baseTheme from './styles/baseTheme';
+import GlobalStyle from './styles/globalStyle';
+// import './normalize.css';
 
 registerServiceWorker();
 
@@ -29,7 +32,6 @@ function GlobalLoadingIndicator() {
     document.body.style.borderTop = '4px solid red';
     return null;
   }
-
 
   document.body.style.borderTop = '0px';
   return null;
@@ -64,12 +66,17 @@ const client = new ApolloClient({
 
 const Root = () => (
   <ApolloProvider client={client}>
-    <Fragment>
+    <>
       <ApolloNetworkStatusProvider>
-        <GlobalLoadingIndicator />
-        <Router />
+        <ThemeProvider theme={baseTheme}>
+          <GlobalStyle />
+          <Layout>
+            <GlobalLoadingIndicator />
+            <Router />
+          </Layout>
+        </ThemeProvider>
       </ApolloNetworkStatusProvider>
-    </Fragment>
+    </>
   </ApolloProvider>
 );
 
